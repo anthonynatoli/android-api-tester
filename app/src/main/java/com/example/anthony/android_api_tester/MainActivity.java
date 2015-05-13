@@ -10,13 +10,19 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
+import android.widget.Button;
 import android.util.Log;
 
 
 public class MainActivity extends AppCompatActivity implements OnItemSelectedListener{
 
     Spinner methods_spinner;
+    TextView host;
+    TextView body;
+    Button submit;
     String method_type;
+    String host_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         setContentView(R.layout.activity_main);
 
         methods_spinner = (Spinner) findViewById(R.id.methods_spinner);
+        host = (TextView) findViewById(R.id.host_name);
+        body = (TextView) findViewById(R.id.request_body);
+        submit = (Button) findViewById(R.id.submit_button);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.methods_array, android.R.layout.simple_spinner_item);
@@ -60,5 +69,9 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
     public void onNothingSelected(AdapterView<?> parent){
 
+    }
+
+    public void submitClicked(View target){
+        
     }
 }
