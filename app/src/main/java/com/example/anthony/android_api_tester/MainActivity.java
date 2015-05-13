@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     Button submit;
     String method_type;
     String host_name;
+    String body_string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     }
 
     public void submitClicked(View target){
-        
+        host_name =  host.getText().toString();
+        body_string = body.getText().toString();
+        Log.i("APP", "Doing it to " + host_name);
     }
 }
