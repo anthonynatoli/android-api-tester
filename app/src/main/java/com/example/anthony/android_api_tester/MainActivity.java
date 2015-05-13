@@ -73,8 +73,11 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     }
 
     public void submitClicked(View target){
+        String response = "";
         host_name =  host.getText().toString();
         body_string = body.getText().toString();
+        SubmitHelper s = new SubmitHelper();
+        response = s.execute(method_type, host_name, body_string);
         Log.i("APP", "Doing it to " + host_name);
     }
 }
