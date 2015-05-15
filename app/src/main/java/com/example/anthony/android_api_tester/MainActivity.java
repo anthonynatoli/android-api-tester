@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Button;
 import android.util.Log;
+import android.app.AlertDialog;
 
 
 public class MainActivity extends AppCompatActivity implements OnItemSelectedListener{
@@ -77,7 +78,10 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         host_name =  host.getText().toString();
         body_string = body.getText().toString();
         SubmitHelper s = new SubmitHelper();
-        response = s.execute(method_type, host_name, body_string);
-        Log.i("APP", "Doing it to " + host_name);
+        Log.i("APP", "Doing a " + method_type);
+        response = s.execute("http://skateipsum.com/get/1/1/text", "", method_type);
+        //response = s.execute(host_name, body_string, method_type);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(response);
     }
 }
