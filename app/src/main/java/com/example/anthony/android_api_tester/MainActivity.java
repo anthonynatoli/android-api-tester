@@ -15,6 +15,12 @@ import android.widget.Button;
 import android.util.Log;
 import android.app.AlertDialog;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+
 
 public class MainActivity extends AppCompatActivity implements OnItemSelectedListener{
 
@@ -26,10 +32,16 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     String host_name;
     String body_string;
 
+    private AsyncHttpClient client;
+    private RequestParams params;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        client = new AsyncHttpClient();
+        params = new RequestParams();
 
         methods_spinner = (Spinner) findViewById(R.id.methods_spinner);
         host = (TextView) findViewById(R.id.host_name);
@@ -75,13 +87,45 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
     public void submitClicked(View target){
         String response = "";
-        host_name =  host.getText().toString();
+        host_name = "http://skateipsum.com/get/1/1/text"; //host.getText().toString();
         body_string = body.getText().toString();
         SubmitHelper s = new SubmitHelper();
         Log.i("APP", "Doing a " + method_type);
-        response = s.execute("http://skateipsum.com/get/1/1/text", "", method_type);
+        //response = s.execute("http://skateipsum.com/get/1/1/text", "", method_type);
         //response = s.execute(host_name, body_string, method_type);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(response);
+        switch(method_type){
+            case "GET":
+                client.get(host_name, params, new AsyncHttpResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        String s = new String(responseBody);
+                        Log.i("SUBMITHELPER", "Returned: " + s);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+                        builder.setMessage(s);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Log.i("SUBMITHELPER", "FAILURE");
+                    }
+                });
+                break;
+            case "POST":
+                client.post(host_name, params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                    }
+                });
+                break;
+            default:
+        }
     }
 }
+
